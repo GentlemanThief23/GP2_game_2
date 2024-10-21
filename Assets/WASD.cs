@@ -7,7 +7,9 @@ public class WASD : MonoBehaviour
 {
     public bool debugs = true;
     Rigidbody rb;
-    float speed = 10;
+    float speed = 10f;
+
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +24,13 @@ public class WASD : MonoBehaviour
 
     void FixedUpdate()
     {
+        Vector3 wishDir = transform.TransformDirection(Direction(debugs));
         rb.AddForce(Direction(debugs) * speed);
     }
 
     Vector3 Direction(bool debugs)
     {
+        
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
         Vector3 dir = new Vector3(h, 0, v);
@@ -34,9 +38,12 @@ public class WASD : MonoBehaviour
 
         if (debugs)
         {
+            Vector3 temp = transform.TransformDirection(dir);
+            Debug.DrawRay(transform.position, rb.velocity, Color.yellow);
             Debug.Log("vector: " + dir);
             Debug.DrawRay(transform.position, dir * 2f, Color.white);
             Debug.DrawRay(transform.position, rb.velocity, Color.yellow);
+            Debug.DrawRay(transform.position + Vector3.up, transform.position, Color.yellow);
         }
         return dir;
     }
