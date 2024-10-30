@@ -12,12 +12,20 @@ public class LineForce : MonoBehaviour
 
     private Rigidbody rb;
 
+    public bool letGo;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
 
         isAiming = false;
         lineRenderer.enabled = false;
+        letGo = false;
+    }
+
+    private void Update()
+    {
+        if(Input.GetMouseButtonUp(0)) { letGo = true; }
     }
 
     private void FixedUpdate()
@@ -30,20 +38,17 @@ public class LineForce : MonoBehaviour
         ProcessAim();
     }
 
-    //private void OnMouseDown()
-    //{
-    //    if (isIdle)
-    //    {
-    //        isAiming = true;
-    //    }
-    //}
+    private void OnMouseDown()
+    {
+            isAiming = true;
+    }
 
     private void ProcessAim()
     {
-        //if (!isAiming || !isIdle)
-        //{
-        //    return;
-        //}
+        if (!isAiming)
+        {
+            return;
+        }
 
         Vector3? worldPoint = CastMouseClickRay();
 
@@ -54,7 +59,7 @@ public class LineForce : MonoBehaviour
 
         DrawLine(worldPoint.Value);
 
-        if (Input.GetMouseButtonUp(0))
+        if (letGo)
         {
             Shoot(worldPoint.Value);
         }
@@ -62,6 +67,7 @@ public class LineForce : MonoBehaviour
 
     private void Shoot(Vector3 worldPoint)
     {
+        letGo = false;
         isAiming = false;
         lineRenderer.enabled = false;
 
