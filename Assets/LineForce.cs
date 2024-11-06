@@ -21,6 +21,8 @@ public class LineForce : MonoBehaviour
         isAiming = false;
         lineRenderer.enabled = false;
         letGo = false;
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     private void Update()
